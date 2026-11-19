@@ -1,0 +1,44 @@
+[project]
+name = "drowsy-project"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+authors = [
+    { name = "Bhrugu", email = "238846475+BhruguST@users.noreply.github.com" }
+]
+requires-python = ">=3.11"
+dependencies = [
+    "mediapipe>=1.2.3",
+    "numpy>=2.4.6",
+    "opencv-python>=5.0.0.93",
+    "pygame>=2.6.1",
+]
+
+[project.optional-dependencies]
+# Swin-T eye-state classifier. Install with: uv sync --extra ml
+# onnxruntime is the fast CPU inference path; onnx + onnxscript are only
+# needed by export_swin_onnx.py.
+ml = [
+    "torch>=2.2",
+    "timm>=1.0",
+    "onnx>=1.16",
+    "onnxruntime>=1.17",
+    "onnxscript>=0.2",
+]
+
+# Local inference runs on CPU; avoid downloading CUDA libraries.
+[[tool.uv.index]]
+name = "pytorch-cpu"
+url = "https://download.pytorch.org/whl/cpu"
+explicit = true
+
+[tool.uv.sources]
+torch = [{ index = "pytorch-cpu" }]
+torchvision = [{ index = "pytorch-cpu" }]
+
+[project.scripts]
+drowsy-project = "drowsy_project:main"
+
+[build-system]
+requires = ["uv_build>=0.13.7,<0.14.0"]
+build-backend = "uv_build"
